@@ -6,7 +6,7 @@ public class ClientHandler {
     public static void handle(SyncPayload p) {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player != null) {
-            mc.player.setData(RpgCore.RPG, new RpgData(p.level(), p.xp()));
+            mc.player.setData(RpgCore.RPG, p.data());
         }
     }
 }
