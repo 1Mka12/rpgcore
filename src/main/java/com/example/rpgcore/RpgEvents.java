@@ -12,6 +12,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 @EventBusSubscriber(modid = RpgCore.MODID)
 public class RpgEvents {
@@ -25,6 +26,11 @@ public class RpgEvents {
             attr.addOrReplacePermanentModifier(new AttributeModifier(
                     HP_ID, (d.level() - 1) * 2.0, AttributeModifier.Operation.ADD_VALUE));
         }
+    }
+
+    private static void sync(ServerPlayer p) {
+        RpgData d = p.getData(RpgCore.RPG);
+        PacketDistributor.sendToPlayer(p, new SyncPayload(d.level(), d.xp()));
     }
 
     @SubscribeEvent
@@ -46,17 +52,29 @@ public class RpgEvents {
                 applyStats(p);
                 p.sendSystemMessage(Component.literal("Новий рівень: " + level + "!"));
             }
+            sync(p);
         }
     }
 
     @SubscribeEvent
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent e) {
-        if (e.getEntity() instanceof ServerPlayer p) applyStats(p);
+        if (e.getEntity() instanceof ServerPlayer p) {
+            applyStats(p);
+            sync(p);
+        }
     }
 
     @SubscribeEvent
     public static void onRespawn(PlayerEvent.PlayerRespawnEvent e) {
-        if (e.getEntity() instanceof ServerPlayer p) applyStats(p);
+        if (e.getEntity() instanceof ServerPlayer p) {
+            applyStats(p);
+            sync(p);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onDimension(PlayerEvent.PlayerChangedDimensionEvent e) {
+        if (e.getEntity() instanceof ServerPlayer p) sync(p);
     }
 
     @SubscribeEvent
