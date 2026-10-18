@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+    id 'net.neoforged.moddev' version '2.0.78'
+}
+
+group = 'com.example.rpgcore'
+version = '0.1.0'
+base { archivesName = 'rpgcore' }
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    version = project.neo_version
+    runs {
+        client { client() }
+        server { server() }
+    }
+    mods {
+        rpgcore { sourceSet sourceSets.main }
+    }
+}
