@@ -18,6 +18,7 @@ public class RpgCore {
     public static final Supplier<AttachmentType<RpgData>> RPG = ATTACHMENTS.register("rpg",
             () -> AttachmentType.builder(() -> new RpgData(1, 0))
                     .serialize(RpgData.CODEC)
+                    .sync(RpgData.STREAM_CODEC)
                     .copyOnDeath()
                     .build());
 
