@@ -1,0 +1,11 @@
+{
+  "screen.rpgcore.status": "Статус персонажа",
+  "screen.rpgcore.level": "Рівень: %s",
+  "screen.rpgcore.xp": "Досвід: %s / %s",
+  "screen.rpgcore.health": "Здоров'я: %s",
+  "screen.rpgcore.attack": "Атака: %s",
+  "screen.rpgcore.armor": "Броня: %s",
+  "screen.rpgcore.speed": "Швидкість: %s",
+  "key.rpgcore.status": "Статус персонажа",
+  "key.categories.rpgcore": "RPG"
+}
